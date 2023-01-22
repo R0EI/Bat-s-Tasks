@@ -7,9 +7,9 @@ import socket
 app = Flask(__name__)
 
 def get_db():
-    client = MongoClient(host='mongodbhost',
+    client = MongoClient(host='mongodb://root:password@mymongodb:27017/tasks',
                          port=27017,
-                         user='root',
+                         username='root',
                          password='password',
                          authSource='admin')
     db = client["tasks"]
@@ -25,15 +25,15 @@ def index():
     for x in mycol.find():
         message += f"{x}\n"
     
-    return jsonify(
-        message
-    )
+    return message
 
 
 @app.route("/tasks")
 def get_all_tasks():
     db = get_db()
-    tasks = db.task.find()
+    mycol = db["all_tasks"]
+
+    tasks = mycol.task.find()
     data = []
     for task in tasks:
         item = {
@@ -49,6 +49,7 @@ def get_all_tasks():
 @app.route("/task", methods=["POST"])
 def create_task():
     db = get_db()
+    mycol = db["all_tasks"]
     data = request.get_json(force=True)
     db.task.insert_one({"task": data["task"]})
     return jsonify(
