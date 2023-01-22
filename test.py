@@ -15,13 +15,25 @@ client = MongoClient(host='mongodb://root:password@localhost:27017/tasks',
 db = client["tasks"]
 mycol = db["all_tasks"]
 
-x = mycol.insert_one({
-        "id": 3.0,
-        "task": "Working"
-    })
+# x = mycol.insert_one({
+#         "id": 3.0,
+#         "task": "Working"
+#     })
 
-msg =""
-for x in mycol.find():
-    msg+=f"{x}\n"
-print(msg)
+# msg =""
+# for x in mycol.find():
+#     curr = x["task"]
+#     msg+=f"{curr}\n"
+# print(msg)
 # exit
+
+mycol = db["all_tasks"]
+tasks = mycol.find()
+data = []
+for task in tasks:
+    item = {
+        "id": str(task["id"]),
+        "task": task["task"]
+    }
+    data.append(item)
+print(data)
