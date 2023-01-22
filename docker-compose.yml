@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    links:
+      - mymongodb
+    depends_on:
+      mymongodb:
+        condition: service_healthy
+
+  mymongodb:
+    image: mongo:4.2
+    hostname: mongodbhost
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=tasks
+    volumes:
+      - mongo-data:/data/db
+      - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 10s
+      retries: 5
+       
+volumes:
+  mongo-data:
