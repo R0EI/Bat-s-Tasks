@@ -28,12 +28,13 @@ def get_all_tasks():
     db = get_db()
     mycol = db["all_tasks"]
     tasks = mycol.find()
+    html_indexing = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;"
     msg = ""
     for task in tasks:
         temp_id = str(task["_id"])
         temp_task = task["task"]
         temp_until = task["until"]
-        msg+=f"<b>ID: {temp_id}</b><br>Task: {temp_task}<br>Expiration: {temp_until}<br><br><br>"
+        msg+=f"{html_indexing}<b>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
     return msg
 
 
