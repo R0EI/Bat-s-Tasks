@@ -3,6 +3,8 @@ from flask_pymongo import PyMongo
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import socket
+import json
+
 
 app = Flask(__name__)
 
@@ -19,7 +21,6 @@ def get_db():
 @app.route("/")
 def index():  
     return render_template("index.html")
-  
 
 
 @app.route("/tasks")
@@ -28,33 +29,20 @@ def get_all_tasks():
     mycol = db["all_tasks"]
     tasks = mycol.find()
     msg = ""
-
     for task in tasks:
-        item = {
-            "id": str(task["_id"]),
-            "task": task["task"],
-            "Expiration": task["until"]
-        }
-        msg += f"{item}"
-    return jsonify(
-        tasks=msg
-    )
+        temp_id = str(task["_id"])
+        temp_task = task["task"]
+        temp_until = task["until"]
+        msg+=f"<b>ID: {temp_id}</b><br>Task: {temp_task}<br>Expiration: {temp_until}<br><br><br>"
+    return msg
 
 
 @app.route("/task", methods=["POST"])
 def create_task():
     db = get_db()
     mycol = db["all_tasks"]
-    
-    tasks = mycol.find()
-    s=0
-    for task in tasks:
-        s+=1
-    s+=1
-
     data = request.get_json(force=True)
-    mycol.insert_one({"id":str(s),
-                        "task": data["task"],
+    mycol.insert_one({  "task": data["task"],
                         "until": data["until"]})
     return jsonify(
         message="Task saved successfully!"
