@@ -90,17 +90,6 @@ def delete_task(id):
     )
 
 
-@app.route("/tasks/delete", methods=["POST"])
-def delete_all_tasks():
-    db = get_db()
-    mycol = db["all_tasks"]
-    mycol.delete_all_tasks
-   
-    return jsonify(
-        message="All Tasks deleted!"
-    )
-
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 

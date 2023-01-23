@@ -4,7 +4,7 @@ db.all_tasks.drop()
 db.all_tasks.insertMany([
     {
         "id": 1,
-        "task": "Working",
+        "task": "Working Out",
         "until": "25/06/23"
     },
     {
