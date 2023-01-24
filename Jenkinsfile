@@ -18,31 +18,18 @@ pipeline{
             steps{
                 deleteDir()
                 checkout scm
-                
+
             }
         }   
 
-        // stage ("AWS login"){
-        //     steps{
-        //         script{
-        //             sh """
-        //             apt update
-        //             apt install -y awscli
-        //             aws configure set aws_access_key_id AKIAZMC2XWDGO6KFC6FA
-        //             aws configure set aws_secret_access_key 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
-        //             aws configure set default.region eu-west-3
-        //             aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
-        //             """
-        //         }
-        //     }
-        // }
 
-
-        // stage("Build Portfolio") {
-        //     steps {
-        //         sh "docker build -t ${IMAGE_REPO_NAME} ."
-        //     }
-        // }
+        stage("Build Portfolio") {
+            steps {
+                sh "docker build -t ${IMAGE_REPO_NAME} ."
+                sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+            }
+        }
 
         // stage("Test App container") {
         //        steps {
