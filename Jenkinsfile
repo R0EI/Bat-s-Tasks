@@ -25,7 +25,7 @@ pipeline{
         stage("Build APP") {
             steps {
                 script{
-                    sh "docker build -t ${IMAGE_REPO_NAME} ."
+                    sh "docker build -f Dockerfile.app -t ${IMAGE_REPO_NAME} ."
                 }
             }
         }
