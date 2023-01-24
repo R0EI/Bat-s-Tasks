@@ -18,7 +18,6 @@ pipeline{
             steps{
                 deleteDir()
                 checkout scm
-                echo "beseder"
             }
         }   
 
