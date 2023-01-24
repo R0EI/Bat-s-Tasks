@@ -9,7 +9,7 @@ pipeline{
     environment {
        AWS_ACCOUNT_ID= "644435390668"
        AWS_DEFAULT_REGION="eu-west-3"
-       IMAGE_REPO_NAME= "roei-public"
+       IMAGE_REPO_NAME= "roei"
        IMAGE_TAG= "latest"
     }
 
@@ -22,17 +22,24 @@ pipeline{
             }
         }   
 
+        stage ("AWS login"){
+            steps{
+                script{
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: "aws-jenkins",
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        sh "aws s3 ls"
+                    }
+                }
+            }
+        }
 
         stage("Build Portfolio") {
             steps {
-                sh """
-                    apt update
-                    apt install -y awscli
-                """
-                sh "aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/c7o8u9c1"
                 sh "docker build -t ${IMAGE_REPO_NAME} ."
-                sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
-                sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
             }
         }
 
