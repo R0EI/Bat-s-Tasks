@@ -52,7 +52,7 @@ def create_task():
                         "until": until,
                         "urgency_lvl": urgency_lvl})
     return redirect(url_for("get_all_tasks"))
-    
+
 
 @app.route("/task/<id>", methods=["PUT"])
 def update_task(id):
@@ -77,7 +77,7 @@ def delete_task(id):
     if response.deleted_count:
         message = "Task deleted successfully!"
     else:
-        message = "No Task found!"
+        message = "Task Not found!"
     return jsonify(
         message=message
     )
