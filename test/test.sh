@@ -33,17 +33,17 @@ ID=$(curl -s $API_BASE_URL/id_for_testing)
 response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "Content-Type: application/json" -d '{"task": "ChangedTest"}' $API_BASE_URL/task/$ID)
 RESPONSES+=("$response") 
 if [[ $response == *"200"* ]]; then 
-  echo "PUT Request to /task/id was successful." >> score.txt
+  echo "PUT Request to /task/$ID was successful." >> score.txt
 else
-  echo "PUT Request to /task/id failed." >> score.txt
+  echo "PUT Request to /task/$ID failed." >> score.txt
 fi  
 
 response=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE -H -d $API_BASE_URL/task/$ID)
 RESPONSES+=("$response") 
 if [[ $response == *"200"* ]]; then 
-  echo "DELETE Request to /task/id was successful." >> score.txt
+  echo "DELETE Request to /task/$ID was successful." >> score.txt
 else
-  echo "DELETE Request to /task/id failed." >> score.txt
+  echo "DELETE Request to /task/$ID failed." >> score.txt
 fi  
 
 for item in "${RESPONSES[@]}"; do
