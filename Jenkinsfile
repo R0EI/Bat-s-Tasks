@@ -9,7 +9,7 @@ pipeline{
     environment {
        AWS_ACCOUNT_ID= "644435390668"
        AWS_DEFAULT_REGION="eu-west-3"
-       IMAGE_REPO_NAME= "roei"
+       IMAGE_REPO_NAME= "roei-public"
        IMAGE_TAG= "latest"
     }
 
