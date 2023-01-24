@@ -6,7 +6,6 @@ from random import choice
 import socket
 import json
 
-
 app = Flask(__name__)
 
 def get_db():
@@ -18,11 +17,9 @@ def get_db():
     db = client["tasks"]
     return db
 
-
 @app.route("/")
 def index():  
     return render_template("index.html")
-
 
 @app.route("/tasks")
 def get_all_tasks():
@@ -44,7 +41,6 @@ def get_all_tasks():
             msg+=f"{html_indexing}<b style='color:green;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
     return msg
 
-
 @app.route("/task", methods=["POST"])
 def create_task():
     db = get_db()
@@ -56,7 +52,6 @@ def create_task():
     return jsonify(
         message="Task saved successfully!"
     )
-
 
 @app.route("/task/<id>", methods=["PUT"])
 def update_task(id):
@@ -71,7 +66,6 @@ def update_task(id):
     return jsonify(
         message=message
     )
-
 
 @app.route("/task/<id>", methods=["DELETE"])
 def delete_task(id):
