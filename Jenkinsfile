@@ -22,8 +22,9 @@ pipeline{
             }
         }   
 
-        stage ("AWS login"){
-            steps{
+
+        stage("Build Portfolio") {
+            steps {
                 script{
                     withCredentials([[
                         $class: 'AmazonWebServicesCredentialsBinding',
@@ -31,15 +32,12 @@ pipeline{
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
-                        sh "aws ec2 describe-instances --region=eu-west-3"
+                        sh "aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
+                        sh "docker build -t ${IMAGE_REPO_NAME} ."
+                        sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+                        sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
                     }
                 }
-            }
-        }
-
-        stage("Build Portfolio") {
-            steps {
-                sh "docker build -t ${IMAGE_REPO_NAME} ."
             }
         }
 
