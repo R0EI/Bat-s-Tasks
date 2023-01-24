@@ -11,18 +11,17 @@ else
   echo "GET Request to /tasks failed." >> score.txt
 fi
 
-response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/x-www-form-urlencoded" -d '{"task": "Test","until": "Test","urgency_lvl": "C"}' $API_BASE_URL/task)
+response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/x-www-form-urlencoded" --data "task=Test&until=Test&urgency_lvl=C" $API_BASE_URL/task)
 RESPONSES+=("$response") 
-if [[ $response == *"200"* ]]; then 
+if [[ $response == *"200"* ]] || [[ $response == *"302"* ]]; then 
   echo "POST Request to /task was successful." >> score.txt
 else
   echo "POST Request to /task failed." >> score.txt
 fi
 
-
 response=$(curl -s -o /dev/null -w "%{http_code}" $API_BASE_URL/sorted_tasks)
 RESPONSES+=("$response") 
-if [[ $response == *"200"* ]]; then 
+if [[ $response == *"200"* ]]; then
   echo "GET Request to /sorted_tasks was successful." >> score.txt
 else
   echo "GET Request to /sorted_tasks failed." >> score.txt
@@ -47,7 +46,7 @@ else
 fi  
 
 for item in "${RESPONSES[@]}"; do
-  if [[ $item == 200 ]]; then
+  if [[ $item == 200 ]] || [[ $item == *"302"* ]]; then 
     continue
   else
     echo "Test Failed"

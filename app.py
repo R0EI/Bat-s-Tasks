@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -45,13 +45,14 @@ def get_all_tasks():
 def create_task():
     db = get_db()
     mycol = db["all_tasks"]
-    data = request.get_json(force=True)
-    mycol.insert_one({  "task": data["task"],
-                        "until": data["until"],
-                        "urgency_lvl": data["urgency_lvl"]})
-    return jsonify(
-        message="Task saved successfully!"
-    )
+    task=request.form["task"]
+    until=request.form["until"]
+    urgency_lvl=request.form["urgency_lvl"]
+    mycol.insert_one({  "task": task,
+                        "until": until,
+                        "urgency_lvl": urgency_lvl})
+    return redirect(url_for("get_all_tasks"))
+    
 
 @app.route("/task/<id>", methods=["PUT"])
 def update_task(id):
@@ -66,6 +67,7 @@ def update_task(id):
     return jsonify(
         message=message
     )
+
 
 @app.route("/task/<id>", methods=["DELETE"])
 def delete_task(id):
