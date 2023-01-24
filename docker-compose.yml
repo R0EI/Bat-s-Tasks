@@ -1,7 +1,9 @@
 version: '3.9'
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.app
     links:
       - mymongodb
     depends_on:
@@ -27,7 +29,9 @@ services:
       retries: 5
 
   nginx:
-    image: nginx
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
     ports:
       - 80:80
     volumes:
