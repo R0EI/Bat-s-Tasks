@@ -34,7 +34,13 @@ def get_all_tasks():
         temp_id = str(task["_id"])
         temp_task = task["task"]
         temp_until = task["until"]
-        msg+=f"{html_indexing}<b>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
+        temp_lvl = task["urgency_lvl"]
+        if temp_lvl=='A':
+            msg+=f"{html_indexing}<b style='color:red;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
+        elif temp_lvl=='B':
+            msg+=f"{html_indexing}<b style='color:#FFC300;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
+        else:
+            msg+=f"{html_indexing}<b style='color:green;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
     return msg
 
 
@@ -44,7 +50,8 @@ def create_task():
     mycol = db["all_tasks"]
     data = request.get_json(force=True)
     mycol.insert_one({  "task": data["task"],
-                        "until": data["until"]})
+                        "until": data["until"],
+                        "urgency_lvl": data["urgency_lvl"]})
     return jsonify(
         message="Task saved successfully!"
     )
@@ -78,6 +85,28 @@ def delete_task(id):
         message=message
     )
 
+@app.route("/sorted_tasks")
+def sorted_tasks():
+    db = get_db()
+    mycol = db["all_tasks"]
+    tasks = mycol.find()
+    html_indexing = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;"
+    msg = ""
+    msgB=""
+    msgC=""
+    for task in tasks:
+        temp_id = str(task["_id"])
+        temp_task = task["task"]
+        temp_until = task["until"]
+        temp_lvl = task["urgency_lvl"]
+        if temp_lvl=='A':
+            msg+=f"{html_indexing}<b style='color:red;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
+        elif temp_lvl=='B':
+            msgB+=f"{html_indexing}<b style='color:#FFC300;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
+        else:
+            msgC+=f"{html_indexing}<b style='color:green;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"  
+    msg= msg + msgB + msgC
+    return msg
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

@@ -3,13 +3,18 @@ db.all_tasks.drop()
 
 db.all_tasks.insertMany([
     {
-        "id": 1,
         "task": "Working Out",
-        "until": "25/06/23"
+        "until": "25/06/23",
+        "urgency_lvl": "A"
     },
     {
-        "id": 2,
         "task": "Reading",
-        "until": "10/02/23"
+        "until": "10/02/23",
+        "urgency_lvl": "B"
+    },
+    {
+        "task": "Meditation",
+        "until": "24/01/23",
+        "urgency_lvl": "C"
     }
 ]);
