@@ -25,6 +25,10 @@ pipeline{
 
         stage("Build Portfolio") {
             steps {
+                sh """
+                    apt update
+                    apt install -y awscli
+                """
                 sh "aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/c7o8u9c1"
                 sh "docker build -t ${IMAGE_REPO_NAME} ."
                 sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
