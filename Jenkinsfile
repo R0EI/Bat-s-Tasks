@@ -14,7 +14,7 @@ pipeline{
     }
 
     stages{
-        stage("INIT"){
+        stage("Init"){
             steps{
                 deleteDir()
                 checkout scm
@@ -22,38 +22,24 @@ pipeline{
             }
         }   
 
-
-        stage("Build Portfolio") {
+        stage("Build APP") {
             steps {
                 script{
-                    withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: "aws-jenkins",
-                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    ]]) {
-                        sh "aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
-                        sh "docker build -t ${IMAGE_REPO_NAME} ."
-                        sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
-                        sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
-                    }
+                    sh "docker build -t ${IMAGE_REPO_NAME} ."
                 }
             }
         }
 
-        // stage("Test App container") {
-        //        steps {
-        //            sh """
-        //             docker-compose build --no-cache
-        //             docker-compose up -d
-        //             docker cp ./nginx/nginx.conf   bat_s_advice_main_nginx_1:/etc/nginx/conf.d
-        //             docker cp ./templates     bat_s_advice_main_nginx_1:/usr/share/nginx/html
-        //             docker cp ./db/setup.sql  bat_s_advice_main_batdb_1:/docker-entrypoint-initdb.d/    
-        //             sleep 10
-        //             curl 13.36.241.69:80
-        //         """
-        //    }
-        // }
+        stage("Test App container") {
+               steps {
+                   sh """
+                    docker-compose build --no-cache
+                    docker-compose up -d
+                    sleep 10
+                    curl 13.36.241.69:80
+                """
+           }
+        }
 
         // stage("E2E Test") {
         //     steps{
@@ -65,12 +51,22 @@ pipeline{
         //     }
         // }
 
-        // stage("Push App Image") {
-        //     steps {
-        //         sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
-        //         sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
-        //     }
-        // }
+        stage("Push to ECR") {
+            steps {
+                script{
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: "aws-jenkins",
+                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                    ]]) {
+                        sh "aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
+                        sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+                        sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+                    }
+                }
+            }
+        }
 
         //  stage("Deploy App") {
         //     steps {   
