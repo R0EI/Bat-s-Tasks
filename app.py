@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from random import choice
 import socket
 import json
 
@@ -107,6 +108,14 @@ def sorted_tasks():
             msgC+=f"{html_indexing}<b style='color:green;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"  
     msg= msg + msgB + msgC
     return msg
+
+@app.route("/id_for_testing")
+def id_for_testing():  
+    db = get_db()   
+    mycol = db["all_tasks"]
+    result = list(mycol.find({}, {"_id": 1}))
+    random_id = choice(result)["_id"]
+    return str(random_id)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

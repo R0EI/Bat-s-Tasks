@@ -41,32 +41,32 @@ pipeline{
            }
         }
 
-        // stage("E2E Test") {
-        //     steps{
-        //         sh """
-        //         chmod 777 test/test.sh
-        //         ./test/test.sh
-        //         docker-compose down 
-        //         """
-        //     }
-        // }
-
-        stage("Push to ECR") {
-            steps {
-                script{
-                    withCredentials([[
-                        $class: 'AmazonWebServicesCredentialsBinding',
-                        credentialsId: "aws-jenkins",
-                        accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                        secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                    ]]) {
-                        sh "aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
-                        sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
-                        sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
-                    }
-                }
+        stage("E2E Test") {
+            steps{
+                sh """
+                chmod 777 test/test.sh
+                ./test/test.sh
+                docker-compose down -v
+                """
             }
         }
+
+        // stage("Push to ECR") {
+        //     steps {
+        //         script{
+        //             withCredentials([[
+        //                 $class: 'AmazonWebServicesCredentialsBinding',
+        //                 credentialsId: "aws-jenkins",
+        //                 accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+        //                 secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        //             ]]) {
+        //                 sh "aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
+        //                 sh 'docker tag ${IMAGE_REPO_NAME}:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+        //                 sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:latest'
+        //             }
+        //         }
+        //     }
+        // }
 
         //  stage("Deploy App") {
         //     steps {   
