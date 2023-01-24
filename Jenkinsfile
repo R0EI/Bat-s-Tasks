@@ -36,7 +36,7 @@ pipeline{
                     docker compose build --no-cache
                     docker compose up -d
                     sleep 10
-                    curl 13.36.241.69:80
+                    curl 52.47.195.52:80
                 """
            }
         }
