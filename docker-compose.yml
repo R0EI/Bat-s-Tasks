@@ -23,7 +23,7 @@ services:
       - mongo-data:/data/db
       - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "sleep 20; db.adminCommand({ ping: 1 })" ]
+      test: echo 'db.runCommand("ping").ok'
       interval: 10s
       timeout: 10s
       retries: 5
