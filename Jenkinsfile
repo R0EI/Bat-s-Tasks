@@ -33,7 +33,7 @@ pipeline{
         stage("Test App container") {
                steps {
                    sh """
-                    docker compose up -d --build
+                    docker-compose up -d --build
                     sleep 10
                     curl 52.47.195.52:80
                 """
