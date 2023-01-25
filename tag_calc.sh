@@ -1,11 +1,9 @@
 #!/bin/bash
 INPUT=${!#}
 
-
 git fetch origin --tags
 git switch main
 git tag --list
-
 
 MAJOR=$(echo $INPUT | cut -d '/' -f2 | cut -d '.' -f1)
 MINOR=$(echo $INPUT | cut -d '/' -f2 | cut -d '.' -f2)
