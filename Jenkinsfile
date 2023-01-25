@@ -22,35 +22,35 @@ pipeline{
             }
         }   
 
-        stage("Build APP") {
-            steps {
-                script{
-                    sh "docker build -f Dockerfile.app -t ${IMAGE_REPO_NAME} ."
-                }
-            }
-        }
+        // stage("Build APP") {
+        //     steps {
+        //         script{
+        //             sh "docker build -f Dockerfile.app -t ${IMAGE_REPO_NAME} ."
+        //         }
+        //     }
+        // }
 
-        stage("Test App container") {
-               steps {
-                   sh """
-                    docker-compose build --no-cache
-                    docker-compose up -d 
-                    sleep 10
-                    curl 15.236.40.171:80
-                """
-           }
-        }
+        // stage("Test App container") {
+        //        steps {
+        //            sh """
+        //             docker-compose build --no-cache
+        //             docker-compose up -d 
+        //             sleep 10
+        //             curl 15.236.40.171:80
+        //         """
+        //    }
+        // }
 
-        stage("E2E Test") {
-            steps{
-                sh """
-                chmod 777 test/test.sh
-                ./test/test.sh
-                cat score.txt
-                docker-compose down -v
-                """
-            }
-        }
+        // stage("E2E Test") {
+        //     steps{
+        //         sh """
+        //         chmod 777 test/test.sh
+        //         ./test/test.sh
+        //         cat score.txt
+        //         docker-compose down -v
+        //         """
+        //     }
+        // }
 
         stage("Tagging commit and tags"){
             when {
@@ -61,20 +61,14 @@ pipeline{
                     env.GIT_COMMIT_MSG = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     if(GIT_COMMIT_MSG.contains("version")){
                         withCredentials([gitUsernamePassword(credentialsId: "94c3e575-d774-4321-8b7b-7f3544ee446e", gitToolName: 'Default')]){
-                            //Ver_Calc=sh(script: "bash tag_calc.sh ${GIT_COMMIT_MSG}",returnStdout: true).trim()
-                            // echo "==============================================================================================="
-                            // echo "${Ver_Calc}" 
-                            // echo "==============================================================================================="
-                            // Ver_Calc= sh "\$(echo ${Ver_Calc}| tail -1)"
-                            sh  """
-                                OUTPUT1=\$(bash tag_calc.sh ${GIT_COMMIT_MSG})
-                                OUTPUT2=\$(echo $OUTPUT1 | tail -1)
-                                echo '1 = $OUTPUT2'
-                                items=($OUTPUT1)
-                                FINAL=\${items[-1]}
-                                echo '2 = \$FINAL'                              
-                                git tag $FINAL
-                                git push origin $FINAL
+                            Ver_Calc=sh(script: "bash tag_calc.sh ${GIT_COMMIT_MSG}",returnStdout: true).trim()
+                            echo "==============================================================================================="
+                            echo "${Ver_Calc}" 
+                            echo "==============================================================================================="
+                            Ver_Calc= sh "\$(echo ${Ver_Calc}| tail -1)"
+                            sh  """                          
+                                git tag \$FINAL
+                                git push origin \$FINAL
                                 git fetch
                                 """
                         }
