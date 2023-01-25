@@ -62,7 +62,7 @@ pipeline{
                     sh "echo ${GIT_COMMIT_MSG}"
                     if(GIT_COMMIT_MSG.contains("version")){
                         withCredentials([gitUsernamePassword(credentialsId: "94c3e575-d774-4321-8b7b-7f3544ee446e", gitToolName: 'Default')]){
-                            Ver_Calc=sh (script: "bash tag_calc.sh ",returnStdout: true).trim()
+                            Ver_Calc=sh (script: "bash tag_calc.sh ${GIT_COMMIT_MSG}",returnStdout: true).trim()
                             echo "${Ver_Calc}"
                             sh  """
                                 git tag --list
