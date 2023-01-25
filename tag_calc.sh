@@ -1,11 +1,11 @@
 #!/bin/bash
+echo "PART 1"
 INPUT=$1
 
-git switch main
-git fetch origin --tags
 MAJOR=$(echo $INPUT | cut -d '/' -f2 | cut -d '.' -f1)
 MINOR=$(echo $INPUT | cut -d '/' -f2 | cut -d '.' -f2)
 Version=$(git describe --tags | grep $MAJOR.$MINOR)
+echo "PART 2"
 if [ "${Version}" = "" ];then
 Version="${MAJOR}.${MINOR}.1"
 else
@@ -20,6 +20,7 @@ NEW_PATCH=`expr $PATCH + 1`
 Version="${MAJOR}.${MINOR}.${NEW_PATCH}"
 
 fi
+echo "PART 3"
 echo $Version
 
 
