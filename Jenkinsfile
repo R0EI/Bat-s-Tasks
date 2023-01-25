@@ -63,7 +63,7 @@ pipeline{
                         withCredentials([gitUsernamePassword(credentialsId: "94c3e575-d774-4321-8b7b-7f3544ee446e", gitToolName: 'Default')]){
                             Ver_Calc=sh (script: "bash tag_calc.sh ${GIT_COMMIT_MSG}",returnStdout: true).trim()
                             echo "${Ver_Calc}"
-                            Ver_Calc=$(echo "${Ver_Calc}"| tail -n1)
+                            Ver_Calc= sh "$(echo ${Ver_Calc}| tail -n1)"
                             sh  """
                                 git tag ${Ver_Calc}
                                 git push origin ${Ver_Calc}
