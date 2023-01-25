@@ -65,7 +65,7 @@ pipeline{
                             echo "==============================================================================================="
                             echo "${Ver_Calc}" 
                             echo "==============================================================================================="
-                            Ver_Calc= sh "\$(echo ${Ver_Calc}| tail -n1)"
+                            Ver_Calc= sh "\$(echo ${Ver_Calc}| tail 1)"
                             sh  """
                                 git tag ${Ver_Calc}
                                 git push origin ${Ver_Calc}
