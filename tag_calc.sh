@@ -1,8 +1,26 @@
 #!/bin/bash
-Version=$(git describe --tags | cut -d '-' -f1 | awk -F. -v OFS=. '{$NF += 1 ; print }')
+INPUT=$1
+
+git switch main
+git fetch origin --tags
+MAJOR=$(echo $INPUT | cut -d '/' -f2 | cut -d '.' -f1)
+MINOR=$(echo $INPUT | cut -d '/' -f2 | cut -d '.' -f2)
+Version=$(git describe --tags | grep $MAJOR.$MINOR)
 if [ "${Version}" = "" ];then
-    Version="1.0.1"
+Version="${MAJOR}.${MINOR}.1"
 else
-    Version=$(git describe --tags | cut -d '-' -f1 | awk -F. -v OFS=. '{$NF += 1 ; print }')
+
+BDIKA=$(git tag --list | grep $MAJOR.$MINOR |  tail -n1)
+
+MAJOR=$(echo $BDIKA | cut -d '/' -f2 | cut -d '.' -f1)
+MINOR=$(echo $BDIKA | cut -d '/' -f2 | cut -d '.' -f2)
+PATCH=$(echo $BDIKA | cut -d '/' -f2 | cut -d '.' -f3)
+
+NEW_PATCH=`expr $PATCH + 1`
+Version="${MAJOR}.${MINOR}.${NEW_PATCH}"
+
 fi
 echo $Version
+
+
+
