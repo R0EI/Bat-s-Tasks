@@ -36,7 +36,7 @@ pipeline{
                     docker-compose build --no-cache
                     docker-compose up -d 
                     sleep 10
-                    curl 52.47.195.52:80
+                    curl 15.236.40.171:80
                 """
            }
         }
@@ -68,6 +68,7 @@ pipeline{
                 }
             }
         }
+
 
         //  stage("Deploy App") {
         //     steps {   

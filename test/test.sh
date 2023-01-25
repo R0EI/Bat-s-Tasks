@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API_BASE_URL="52.47.195.52"
+API_BASE_URL="15.236.40.171"
 touch score.txt
 
 response=$(curl -s -o /dev/null -w "%{http_code}" $API_BASE_URL/tasks)
