@@ -70,6 +70,7 @@ pipeline{
                             git push origin ${Ver_Calc}
                             git fetch
                             """
+                    }
                 }
             }
         }
@@ -119,6 +120,5 @@ pipeline{
         //         //prod1
         //     }
         //  }
-        }
     }
 }
