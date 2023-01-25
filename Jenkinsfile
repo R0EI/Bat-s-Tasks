@@ -68,7 +68,7 @@ pipeline{
                             // Ver_Calc= sh "\$(echo ${Ver_Calc}| tail -1)"
                             sh  """
                                 OUTPUT=\$(bash tag_calc.sh ${GIT_COMMIT_MSG})
-                                items=($OUTPUT)
+                                items=(\$OUTPUT)
                                 FINAL=${items[-1]}
                                 git tag \$FINAL
                                 git push origin \$FINAL
