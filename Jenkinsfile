@@ -62,14 +62,12 @@ pipeline{
                     if(GIT_COMMIT_MSG.contains("version")){
                         withCredentials([gitUsernamePassword(credentialsId: "94c3e575-d774-4321-8b7b-7f3544ee446e", gitToolName: 'Default')]){
                             Ver_Calc=sh(script: "bash tag_calc.sh ${GIT_COMMIT_MSG}",returnStdout: true).trim()
-                            echo "==============================================================================================="
-                            echo "${Ver_Calc}" 
-                            echo "==============================================================================================="
-                            Ver_Calc= sh "\$(echo ${Ver_Calc}| head -1)"
+                            New_tag=println Ver_Calc.split("\n").last()
+
                            
                             sh  """                          
-                                git tag \$FINAL
-                                git push origin \$FINAL
+                                git tag ${New_tag}
+                                git push origin ${New_tag}
                                 git fetch
                                 """
                         }
