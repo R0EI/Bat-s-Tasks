@@ -91,39 +91,39 @@ pipeline{
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ]]) {
                         sh "aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.eu-west-3.amazonaws.com"
-                        sh 'docker tag ${IMAGE_REPO_NAME}:\${Ver_Calc} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:\${Ver_Calc}'
-                        sh 'docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:\${Ver_Calc}'
+                        sh "docker tag ${IMAGE_REPO_NAME} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${New_tag}"
+                        sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${New_tag}"
                     }
                 }
             }
         }
 
-         stage("Deploy App") {
-            steps {   
-                //prod2 
-                sh """
-                scp db/setup.sql ubuntu@13.38.17.63:/home/ubuntu/myapp/db
-                scp app.py ubuntu@13.38.17.63:/home/ubuntu/myapp
-                scp deploy.sh ubuntu@13.38.17.63:/home/ubuntu/myapp
-                scp docker-compose.yml ubuntu@13.38.17.63:/home/ubuntu/myapp
-                scp Dockerfile  ubuntu@13.38.17.63:/home/ubuntu/myapp
-                scp nginx/nginx.conf ubuntu@13.38.17.63:/home/ubuntu/myapp/nginx
-                scp templates/index.html ubuntu@13.38.17.63:/home/ubuntu/myapp/templates
-                scp requirements.txt ubuntu@13.38.17.63:/home/ubuntu/myapp
-                ssh ubuntu@13.38.17.63 /home/ubuntu/myapp/deploy.sh
+        //  stage("Deploy App") {
+        //     steps {   
+        //         //prod2 
+        //         sh """
+        //         scp db/setup.sql ubuntu@13.38.17.63:/home/ubuntu/myapp/db
+        //         scp app.py ubuntu@13.38.17.63:/home/ubuntu/myapp
+        //         scp deploy.sh ubuntu@13.38.17.63:/home/ubuntu/myapp
+        //         scp docker-compose.yml ubuntu@13.38.17.63:/home/ubuntu/myapp
+        //         scp Dockerfile  ubuntu@13.38.17.63:/home/ubuntu/myapp
+        //         scp nginx/nginx.conf ubuntu@13.38.17.63:/home/ubuntu/myapp/nginx
+        //         scp templates/index.html ubuntu@13.38.17.63:/home/ubuntu/myapp/templates
+        //         scp requirements.txt ubuntu@13.38.17.63:/home/ubuntu/myapp
+        //         ssh ubuntu@13.38.17.63 /home/ubuntu/myapp/deploy.sh
 
-                scp db/setup.sql ubuntu@13.38.14.90:/home/ubuntu/myapp/db
-                scp app.py ubuntu@13.38.14.90:/home/ubuntu/myapp
-                scp deploy.sh ubuntu@13.38.14.90:/home/ubuntu/myapp
-                scp docker-compose.yml ubuntu@13.38.14.90:/home/ubuntu/myapp
-                scp Dockerfile  ubuntu@13.38.14.90:/home/ubuntu/myapp
-                scp nginx/nginx.conf ubuntu@13.38.14.90:/home/ubuntu/myapp/nginx
-                scp templates/index.html ubuntu@13.38.14.90:/home/ubuntu/myapp/templates
-                scp requirements.txt ubuntu@13.38.14.90:/home/ubuntu/myapp
-                ssh ubuntu@13.38.14.90 /home/ubuntu/myapp/deploy.sh
-                """    
-                //prod1
-            }
-         }
+        //         scp db/setup.sql ubuntu@13.38.14.90:/home/ubuntu/myapp/db
+        //         scp app.py ubuntu@13.38.14.90:/home/ubuntu/myapp
+        //         scp deploy.sh ubuntu@13.38.14.90:/home/ubuntu/myapp
+        //         scp docker-compose.yml ubuntu@13.38.14.90:/home/ubuntu/myapp
+        //         scp Dockerfile  ubuntu@13.38.14.90:/home/ubuntu/myapp
+        //         scp nginx/nginx.conf ubuntu@13.38.14.90:/home/ubuntu/myapp/nginx
+        //         scp templates/index.html ubuntu@13.38.14.90:/home/ubuntu/myapp/templates
+        //         scp requirements.txt ubuntu@13.38.14.90:/home/ubuntu/myapp
+        //         ssh ubuntu@13.38.14.90 /home/ubuntu/myapp/deploy.sh
+        //         """    
+        //         //prod1
+        //     }
+        //  }
     }
 }
