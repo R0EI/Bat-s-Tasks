@@ -1,5 +1,5 @@
 #!/bin/bash
-INPUT=$1
+INPUT=${!#}
 
 
 git fetch origin --tags
