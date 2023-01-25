@@ -94,7 +94,6 @@ pipeline{
         //     }
         // }
 
-
         //  stage("Deploy App") {
         //     steps {   
         //         //prod2 
