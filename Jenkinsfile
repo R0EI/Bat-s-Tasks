@@ -105,7 +105,7 @@ pipeline{
                scp Dockerfile.mongo  ubuntu@13.39.104.246:/home/ubuntu/myapp
                scp Dockerfile.nginx  ubuntu@13.39.104.246:/home/ubuntu/myapp
                scp nginx/nginx.conf ubuntu@13.39.104.246:/home/ubuntu/myapp/nginx
-               scp init-db.js ubuntu@13.39.104.246:/home/ubuntu/myapp/nginx                
+               scp init-db.js ubuntu@13.39.104.246:/home/ubuntu/myapp              
                scp templates/index.html ubuntu@13.39.104.246:/home/ubuntu/myapp/templates
                scp requirements.txt ubuntu@13.39.104.246:/home/ubuntu/myapp
                ssh ubuntu@13.39.104.246 /home/ubuntu/myapp/deploy.sh
