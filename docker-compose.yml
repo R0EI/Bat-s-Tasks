@@ -13,7 +13,7 @@ services:
   mymongodb:
     build:
       context: .
-      dockerfile: Dockerfile.app
+      dockerfile: Dockerfile.mongo
     hostname: mongodbhost
     ports:
       - 27017:27017
