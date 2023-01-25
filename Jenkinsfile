@@ -69,7 +69,6 @@ pipeline{
                                 git push origin ${New_tag}
                                 git fetch
                                 """
-
                         }
                     }
                 }
