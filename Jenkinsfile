@@ -68,9 +68,9 @@ pipeline{
                             // Ver_Calc= sh "\$(echo ${Ver_Calc}| tail -1)"
                             sh  """
                                 OUTPUT=\$(bash tag_calc.sh)
-                                OUTPUT=\$(echo ${OUTPUT} | tail -1)
-                                git tag ${OUTPUT}
-                                git push origin ${OUTPUT}
+                                OUTPUT=\$(echo \$OUTPUT | tail -1)
+                                git tag \$OUTPUT
+                                git push origin \$OUTPUT
                                 git fetch
                                 """
                         }
