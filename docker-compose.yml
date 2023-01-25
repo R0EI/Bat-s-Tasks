@@ -23,7 +23,6 @@ services:
       - MONGO_INITDB_DATABASE=tasks
     volumes:
       - mongo-data:/data/db
-      - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
     healthcheck:
       test: echo 'db.runCommand("ping").ok'
       interval: 10s
