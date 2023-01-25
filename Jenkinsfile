@@ -64,6 +64,7 @@ pipeline{
                             Ver_Calc=sh(script: "bash tag_calc.sh ${GIT_COMMIT_MSG}",returnStdout: true).trim()
                             New_tag=Ver_Calc.split("\n").last()
                             echo "${New_tag}"
+                            
                             sh  """                          
                                 git tag ${New_tag}
                                 git push origin ${New_tag}
