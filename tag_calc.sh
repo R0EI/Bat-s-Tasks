@@ -13,7 +13,6 @@ Version="${MAJOR}.${MINOR}.1"
 else
 
 BDIKA=$(git tag --list | grep $MAJOR.$MINOR |  tail -n1)
-
 MAJOR=$(echo $BDIKA | cut -d '/' -f2 | cut -d '.' -f1)
 MINOR=$(echo $BDIKA | cut -d '/' -f2 | cut -d '.' -f2)
 PATCH=$(echo $BDIKA | cut -d '/' -f2 | cut -d '.' -f3)
