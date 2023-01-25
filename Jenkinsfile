@@ -60,16 +60,18 @@ pipeline{
                 script{
                     message = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
                     if(message.contains("version")){
-                        Ver_Calc=sh (script: "bash tag_calc.sh ",returnStdout: true).trim()
-                        echo "${Ver_Calc}"
-                        sh  """
-                            git tag --list
-                            git switch main
-                            git fetch --tags
-                            git tag ${Ver_Calc}
-                            git push ${Ver_Calc}
-                            git fetch
-                            """
+                        withCredentials([gitUsernamePassword(credentialsId: "94c3e575-d774-4321-8b7b-7f3544ee446e", gitToolName: 'Default')]){
+                            Ver_Calc=sh (script: "bash tag_calc.sh ",returnStdout: true).trim()
+                            echo "${Ver_Calc}"
+                            sh  """
+                                git tag --list
+                                git switch main
+                                git fetch origin --tags
+                                git tag ${Ver_Calc}
+                                git push origin ${Ver_Calc}
+                                git fetch
+                                """
+                        }
                     }
                 }
             }
