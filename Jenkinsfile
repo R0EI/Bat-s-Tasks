@@ -52,7 +52,6 @@ pipeline{
             }
         }
 
-
         stage("Tagging commit and tags"){
             when {
                 branch 'main'
