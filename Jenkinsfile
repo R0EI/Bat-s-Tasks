@@ -68,13 +68,13 @@ pipeline{
                             // Ver_Calc= sh "\$(echo ${Ver_Calc}| tail -1)"
                             sh  """
                                 OUTPUT1=\$(bash tag_calc.sh ${GIT_COMMIT_MSG})
-                                OUTPUT2=\$(echo \$OUTPUT1 | tail -1)
-                                echo '1 = \$OUTPUT2'
-                                items=(\$OUTPUT1)
+                                OUTPUT2=\$(echo $OUTPUT1 | tail -1)
+                                echo '1 = $OUTPUT2'
+                                items=($OUTPUT1)
                                 FINAL=\${items[-1]}
                                 echo '2 = \$FINAL'                              
-                                git tag \$FINAL
-                                git push origin \$FINAL
+                                git tag $FINAL
+                                git push origin $FINAL
                                 git fetch
                                 """
                         }
