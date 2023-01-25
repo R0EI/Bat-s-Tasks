@@ -59,7 +59,7 @@ pipeline{
             steps{
                 script{
                     env.GIT_COMMIT_MSG = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
-                    echo ${GIT_COMMIT_MSG}
+                    sh "echo ${GIT_COMMIT_MSG}"
                     if(GIT_COMMIT_MSG.contains("version")){
                         withCredentials([gitUsernamePassword(credentialsId: "94c3e575-d774-4321-8b7b-7f3544ee446e", gitToolName: 'Default')]){
                             Ver_Calc=sh (script: "bash tag_calc.sh ",returnStdout: true).trim()
