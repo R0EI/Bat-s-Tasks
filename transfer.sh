@@ -1,5 +1,5 @@
 #!/bin/bash
-API_BASE_URL="13.39.104.246"
+API_BASE_URL=$1
 ssh ubuntu@$API_BASE_URL mkdir /home/ubuntu/myapp
 ssh ubuntu@$API_BASE_URL mkdir /home/ubuntu/myapp/templates
 ssh ubuntu@$API_BASE_URL mkdir /home/ubuntu/myapp/nginx

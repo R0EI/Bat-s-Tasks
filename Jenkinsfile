@@ -99,7 +99,7 @@ pipeline{
            steps {    
                //prod 1
                sh """
-               ./transfer.sh
+               ./transfer.sh "13.39.104.246"
                """
            }
         }
