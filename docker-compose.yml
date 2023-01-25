@@ -24,7 +24,7 @@ services:
       - ./init-db.js:/docker-entrypoint-initdb.d/init-db.js:ro
     healthcheck:
       test: echo 'db.runCommand("ping").ok'
-      interval: 10s
+      interval: 20s
       timeout: 10s
       retries: 5
 
