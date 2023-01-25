@@ -99,32 +99,8 @@ pipeline{
            steps {    
                //prod 1
                sh """
-               scp app.py ubuntu@13.39.104.246:/home/ubuntu/myapp
-               scp deploy.sh ubuntu@13.39.104.246:/home/ubuntu/myapp
-               scp docker-compose.yml ubuntu@13.39.104.246:/home/ubuntu/myapp
-               scp Dockerfile.app  ubuntu@13.39.104.246:/home/ubuntu/myapp
-               scp Dockerfile.mongo  ubuntu@13.39.104.246:/home/ubuntu/myapp
-               scp Dockerfile.nginx  ubuntu@13.39.104.246:/home/ubuntu/myapp
-               scp nginx/nginx.conf ubuntu@13.39.104.246:/home/ubuntu/myapp/nginx
-               scp init-db.js ubuntu@13.39.104.246:/home/ubuntu/myapp              
-               scp templates/index.html ubuntu@13.39.104.246:/home/ubuntu/myapp/templates
-               scp requirements.txt ubuntu@13.39.104.246:/home/ubuntu/myapp
-               ssh ubuntu@13.39.104.246 /home/ubuntu/myapp/deploy.sh
-
-
-               scp app.py ubuntu@13.37.247.205:/home/ubuntu/myapp
-               scp deploy.sh ubuntu@13.37.247.205:/home/ubuntu/myapp
-               scp docker-compose.yml ubuntu@13.37.247.205:/home/ubuntu/myapp
-               scp Dockerfile.app  ubuntu@13.37.247.205:/home/ubuntu/myapp
-               scp Dockerfile.mongo  ubuntu@13.37.247.205:/home/ubuntu/myapp
-               scp Dockerfile.nginx  ubuntu@13.37.247.205:/home/ubuntu/myapp
-               scp nginx/nginx.conf ubuntu@13.37.247.205:/home/ubuntu/myapp/nginx
-               scp init-db.js ubuntu@13.37.247.205:/home/ubuntu/myapp              
-               scp templates/index.html ubuntu@13.37.247.205:/home/ubuntu/myapp/templates
-               scp requirements.txt ubuntu@13.37.247.205:/home/ubuntu/myapp
-               ssh ubuntu@13.37.247.205 /home/ubuntu/myapp/deploy.sh
+               ./transfer.sh
                """
-               //prod 2
            }
         }
     }
