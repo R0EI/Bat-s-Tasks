@@ -76,6 +76,7 @@ def delete_task():
     return redirect(url_for("get_all_tasks"))
 
 
+
 @app.route("/sorted_tasks")
 def sorted_tasks():
     db = get_db()
