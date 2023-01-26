@@ -29,17 +29,17 @@ fi
 
 ID=$(curl -s $API_BASE_URL/id_for_testing)
 
-response=$(curl -s -o /dev/null -w "%{http_code}" -X PUT -H "Content-Type: application/json" -d '{"task": "ChangedTest"}' $API_BASE_URL/task/$ID)
+response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/x-www-form-urlencoded" --data "task=Test&id=$ID" $API_BASE_URL/update_task)
 RESPONSES+=("$response") 
-if [[ $response == *"200"* ]]; then 
+if [[ $response == *"200"* ]] || [[ $response == *"302"* ]]; then 
   echo "PUT Request to /task/$ID was successful." >> score.txt
 else
   echo "PUT Request to /task/$ID failed." >> score.txt
 fi  
 
-response=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE -H -d $API_BASE_URL/task/$ID)
+response=$(curl -s -o /dev/null -w "%{http_code}" -X POST -H "Content-Type: application/x-www-form-urlencoded" --data "id=$ID" $API_BASE_URL/delete_task)
 RESPONSES+=("$response") 
-if [[ $response == *"200"* ]]; then 
+if [[ $response == *"200"* ]] || [[ $response == *"302"* ]]; then 
   echo "DELETE Request to /task/$ID was successful." >> score.txt
 else
   echo "DELETE Request to /task/$ID failed." >> score.txt

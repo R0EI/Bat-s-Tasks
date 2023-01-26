@@ -27,7 +27,7 @@ def get_all_tasks():
     mycol = db["all_tasks"]
     tasks = mycol.find()
     html_indexing = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;"
-    msg = ""
+    msg = "" 
     for task in tasks:
         temp_id = str(task["_id"])
         temp_task = task["task"]
@@ -54,33 +54,25 @@ def create_task():
     return redirect(url_for("get_all_tasks"))
 
 
-@app.route("/task/<id>", methods=["PUT"])
-def update_task(id):
+@app.route("/update_task", methods=["POST"])
+def update_task():
     db = get_db()
     mycol = db["all_tasks"]
-    data = request.get_json(force=True)["task"]
-    response = mycol.update_one({"_id": ObjectId(id)}, {"$set": {"task": data}})
-    if response.matched_count:
-        message = "Task updated successfully!"
-    else:
-        message = "No Task found!"
-    return jsonify(
-        message=message
-    )
+    id=request.form["id"]
+    new_task=request.form["task"]
+    response = mycol.update_one({"_id": ObjectId(id)}, {"$set": {"task": new_task}})
+    return redirect(url_for("get_all_tasks"))
 
 
-@app.route("/task/<id>", methods=["DELETE"])
-def delete_task(id):
+
+@app.route("/delete_task", methods=["POST"])
+def delete_task():
     db = get_db()
+    id=request.form["id"]
     mycol = db["all_tasks"]
     response = mycol.delete_one({"_id": ObjectId(id)})
-    if response.deleted_count:
-        message = "Task deleted successfully!"
-    else:
-        message = "Task Not found!"
-    return jsonify(
-        message=message
-    )
+    return redirect(url_for("get_all_tasks"))
+
 
 @app.route("/sorted_tasks")
 def sorted_tasks():

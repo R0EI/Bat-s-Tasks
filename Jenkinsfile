@@ -10,7 +10,6 @@ pipeline{
        AWS_ACCOUNT_ID= "644435390668"
        AWS_DEFAULT_REGION="eu-west-3"
        IMAGE_REPO_NAME= "roei"
-       IMAGE_TAG= "latest"
     }
 
     stages{
