@@ -15,6 +15,12 @@ pipeline{
 
     stages{
         stage("Init"){
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'feature/*'
+                }
+            }
             steps{
                 deleteDir()
                 checkout scm
@@ -23,6 +29,12 @@ pipeline{
         }   
 
         stage("Build APP") {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'feature/*'
+                }
+            }
             steps {
                 script{
                     sh "docker build -f Dockerfile.app -t ${IMAGE_REPO_NAME} ."
@@ -31,6 +43,12 @@ pipeline{
         }
 
         stage("Test App container") {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'feature/*'
+                }
+            }
                steps {
                    sh """
                     docker-compose build -f docker-compose.yml --no-cache
@@ -42,6 +60,12 @@ pipeline{
         }
 
         stage("E2E Test") {
+            when {
+                anyOf {
+                    branch 'main'
+                    branch 'feature/*'
+                }
+            }
             steps{
                 sh """
                 chmod 777 test/test.sh
@@ -76,6 +100,9 @@ pipeline{
         }
 
         stage("Push to ECR") {
+            when {
+                branch 'main'
+            }
             steps {
                 script{
                     env.GIT_COMMIT_MSG = sh(script: "git log -1 --pretty=%B ${env.GIT_COMMIT}", returnStdout: true).trim()
@@ -96,12 +123,15 @@ pipeline{
         }
 
         stage("Deploy App") {
-           steps {    
-               //prod 1
-               sh """
-               ./transfer.sh "13.38.30.68" ${New_tag}
-               """
-           }
+            when {
+                 branch 'main'
+            }
+            steps {    
+                //prod 1
+                sh """
+                ./transfer.sh "13.38.30.68" ${New_tag}
+                """
+            }
         }
     }
 }
