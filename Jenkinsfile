@@ -99,7 +99,7 @@ pipeline{
            steps {    
                //prod 1
                sh """
-               ./transfer.sh "13.38.30.68"
+               ./transfer.sh "13.38.30.68" ${New_tag}
                """
            }
         }
