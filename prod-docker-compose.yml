@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  app:
+    image: 644435390668.dkr.ecr.eu-west-3.amazonaws.com/roei:${TAG}
+    links:
+      - mymongodb
+    depends_on:
+      mymongodb:
+        condition: service_healthy
+
+  mymongodb:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
+    hostname: mongodbhost
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=tasks
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+      - 80:80
+    depends_on:
+      - app
+       
+volumes:
+  mongo-data:
