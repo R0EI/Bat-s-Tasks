@@ -1,8 +1,8 @@
 #!/bin/bash
 API_BASE_URL=$1
-ssh ubuntu@$API_BASE_URL mkdir /home/ubuntu/myapp
-ssh ubuntu@$API_BASE_URL mkdir /home/ubuntu/myapp/templates
-ssh ubuntu@$API_BASE_URL mkdir /home/ubuntu/myapp/nginx
+ssh ubuntu@$API_BASE_URL mkdir -p /home/ubuntu/myapp
+ssh ubuntu@$API_BASE_URL mkdir -p /home/ubuntu/myapp/templates
+ssh ubuntu@$API_BASE_URL mkdir -p /home/ubuntu/myapp/nginx
 scp app.py ubuntu@$API_BASE_URL:/home/ubuntu/myapp
 scp deploy.sh ubuntu@$API_BASE_URL:/home/ubuntu/myapp
 scp docker-compose.yml ubuntu@$API_BASE_URL:/home/ubuntu/myapp

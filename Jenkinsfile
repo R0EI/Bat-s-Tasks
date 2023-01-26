@@ -33,10 +33,10 @@ pipeline{
         stage("Test App container") {
                steps {
                    sh """
-                    docker-compose build --no-cache
-                    docker-compose up -d 
+                    docker-compose build -f docker-compose.yml --no-cache
+                    docker-compose -f docker-compose.yml up -d 
                     sleep 10
-                    curl 15.236.40.171:80
+                    curl 13.38.82.108:80
                 """
            }
         }
@@ -47,7 +47,7 @@ pipeline{
                 chmod 777 test/test.sh
                 ./test/test.sh
                 cat score.txt
-                docker-compose down -v
+                docker-compose -f docker-compose.yml down -v
                 """
             }
         }
@@ -99,7 +99,7 @@ pipeline{
            steps {    
                //prod 1
                sh """
-               ./transfer.sh "13.39.104.246"
+               ./transfer.sh "13.38.30.68"
                """
            }
         }
