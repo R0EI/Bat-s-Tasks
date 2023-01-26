@@ -17,9 +17,11 @@ def get_db():
     db = client["tasks"]
     return db
 
+
 @app.route("/")
 def index():  
     return render_template("index.html")
+
 
 @app.route("/tasks")
 def get_all_tasks():
@@ -40,6 +42,7 @@ def get_all_tasks():
         else:
             msg+=f"{html_indexing}<b style='color:green;'>ID: {temp_id}</b><br>{html_indexing}Task: {temp_task}<br>{html_indexing}Expiration: {temp_until}<br><br><br>"
     return msg
+
 
 @app.route("/task", methods=["POST"])
 def create_task():
@@ -62,7 +65,6 @@ def update_task():
     new_task=request.form["task"]
     response = mycol.update_one({"_id": ObjectId(id)}, {"$set": {"task": new_task}})
     return redirect(url_for("get_all_tasks"))
-
 
 
 @app.route("/delete_task", methods=["POST"])
