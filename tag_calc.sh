@@ -20,6 +20,3 @@ Version="${MAJOR}.${MINOR}.${NEW_PATCH}"
 fi
 
 echo $Version
-
-
-
