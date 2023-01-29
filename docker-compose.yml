@@ -39,4 +39,4 @@ services:
       - app
        
 volumes:
-  mongo-data:
+  mongo-data: 
