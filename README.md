@@ -5,7 +5,6 @@ Bat's Tasks
 
 This project launches a website for managing tasks, The website's front is built with [Flask](http://flask.pocoo.org/).
 
-
 The project follows a streamlined CI/CD workflow, ensuring that the website is always up-to-date and functioning smoothly.
 
 
