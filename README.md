@@ -21,6 +21,8 @@ The project follows a streamlined CI/CD workflow, ensuring that the website is a
 - Deployment
 
 
+
+
 Each step in the workflow is designed to ensure that the website is working as expected, from building the latest version of the code to deploying it live.
 
 By following this streamlined process, we can guarantee a smooth user experience for all users.
