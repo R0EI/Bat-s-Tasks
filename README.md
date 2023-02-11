@@ -18,9 +18,7 @@ The project follows a streamlined CI/CD workflow, ensuring that the website is a
 - End-to-end Testing
 - Tagging and Publishing
 - Publish
-- Deployment
-
-
+- Deployment  
 
 
 Each step in the workflow is designed to ensure that the website is working as expected, from building the latest version of the code to deploying it live.
