@@ -6,6 +6,8 @@ Bat's Tasks
 This project launches a website for managing tasks, featuring a simple frontend and several API's. The project follows a streamlined CI/CD workflow, ensuring that the website is always up-to-date and functioning smoothly.
 
 
+![Alt text](web-image.png)
+
 > CI/CD Workflow:
 - Pull
 - Build
