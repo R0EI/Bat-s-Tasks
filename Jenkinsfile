@@ -53,7 +53,7 @@ pipeline{
                     docker-compose -f docker-compose.yml build --no-cache
                     docker-compose -f docker-compose.yml up -d 
                     sleep 10
-                    curl 13.38.82.108:80
+                    curl 13.38.113.16:80
                 """
            }
         }
@@ -128,7 +128,7 @@ pipeline{
             }
             steps {    
                 sh """
-                ./transfer.sh "13.38.30.68" ${New_tag}
+                ./transfer.sh "13.38.64.56" ${New_tag}
                 """
             }
         }
