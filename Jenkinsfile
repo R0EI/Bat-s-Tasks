@@ -126,11 +126,11 @@ pipeline{
             when {
                  branch 'main'
             }
-            steps {    
+            steps {    //for testing
                 sh """ 
                 ./transfer.sh "35.180.54.94" ${New_tag}
                 """
             }
         }
     }
-}
+}22
