@@ -127,7 +127,7 @@ pipeline{
                  branch 'main'
             }
             steps {    
-                sh """
+                sh """ 
                 ./transfer.sh "35.180.54.94" ${New_tag}
                 """
             }
