@@ -66,7 +66,7 @@ pipeline{
                 }
             }
             steps{
-                sh """
+                sh """ 
                 chmod 777 test/test.sh
                 ./test/test.sh
                 cat score.txt
